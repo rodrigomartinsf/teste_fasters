@@ -4,7 +4,7 @@ import { PricesService } from "../services/prices.service";
 @Controller('prices')
 export class PricesController {
 
-  constructor(public priceService: PricesService){
+  constructor(private priceService: PricesService){
 
   }
 
