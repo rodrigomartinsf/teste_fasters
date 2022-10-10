@@ -1,24 +1,28 @@
+import { PricesController } from './../controllers/prices.controller';
 import { Test, TestingModule } from '@nestjs/testing';
-import { PricesController } from '../controllers/prices.controller';
-import { PricesService } from '../services/prices.service';
-import { Sequelize } from 'sequelize-typescript';
-import { Price } from '../models/price.model';
+import { PricesService } from './../services/prices.service';
 
-describe('PricesController', () => {
+describe('AppController', () => {
   let pricesController: PricesController;
+  let pricesService: PricesService;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [PricesController],
-      providers: [PricesService],
+      providers: [PricesService, { provide: PricesService, useValue: jest.fn() }],
     }).compile();
 
     pricesController = app.get<PricesController>(PricesController);
   });
 
-  describe('/prices/MGLU3/2011', () => {
-    it('Deve retornar status 200"', async () => {
-      
+  describe('prices', () => {
+    it('Deve retornar um array"', async () => {
+      const filtro: Object = {
+        ticker: "MGLU3",
+        ano: "2011"
+      };
+      const res = await pricesController.findAll(filtro);
+      expect(res).toHaveBeenCalled();
     });
   });
 });
